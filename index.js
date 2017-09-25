@@ -1,21 +1,23 @@
-var gpio = require('pi-gpio');
+var gpio = require('rpi-gpio');
 var Service, Characteristic;
 
 module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-    homebridge.registerAccessory('homebridge-gpio', 'GPIO', GPIOAccessory);
+    homebridge.registerAccessory('homebridge-gpioswitch', 'GPIO', GPIOAccessory);
 }
 
 function GPIOAccessory(log, config) {
     this.log = log;
     this.name = config['name'];
     this.pin = config['pin'];
-    this.duration = config['duration'];
     this.service = new Service.Switch(this.name);
 
     if (!this.pin) throw new Error('You must provide a config value for pin.');
+
+    this.state = false;
+    gpio.setup(this.pin, gpio.DIR_OUT, write);
 
     this.service
         .getCharacteristic(Characteristic.On)
@@ -29,52 +31,15 @@ GPIOAccessory.prototype.getServices = function() {
 }
 
 GPIOAccessory.prototype.getOn = function(callback) {
-    gpio.read(this.pin, function(err, value) {
-        if (err) {
-        	callback(err);
-        } else {
-	        var on = value;
-    	    callback(null, on);
-    	}
-    });
+    callback(null, this.state);
 }
 
 GPIOAccessory.prototype.setOn = function(on, callback) {
-    if (on) {
-        this.pinAction(0);
-		if (is_defined(this.duration) && is_int(this.duration)) {
-			this.pinTimer()
-		}
-		callback(null);
-    } else {
-		this.pinAction(1);
-		callback(null);
-    }
-}
-
-GPIOAccessory.prototype.pinAction = function(action) {
-        this.log('Turning ' + (action == 0 ? 'on' : 'off') + ' pin #' + this.pin);
-
-        var self = this;
-        gpio.open(self.pin, 'output', function() {
-        gpio.write(self.pin, action, function() {
-		gpio.close(self.pin);
-		return true;
-        });
+    this.state = !on;
+    gpio.write(this.pin, on, function(err) {
+        if (err)
+          this.log('error writing ' + (on ? 'true' : 'false') + 'to gpio: ' + this.pin)
+        this.log('writing ' + (on ? 'true' : 'false') + 'to gpio: ' + this.pin)
     });
-}
-
-GPIOAccessory.prototype.pinTimer = function() {
-        var self = this;
-        setTimeout(function() {
-			self.pinAction(1);
-        }, this.duration);
-}
-
-var is_int = function(n) {
-   return n % 1 === 0;
-}
-
-var is_defined = function(v) {
-	return typeof v !== 'undefined';
+		callback(null);
 }

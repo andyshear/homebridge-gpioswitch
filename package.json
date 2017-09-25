@@ -1,6 +1,6 @@
 {
-	"name": "homebridge-gpio",
-	"version": "0.0.4",
+	"name": "homebridge-gpioswitch",
+	"version": "0.0.1",
 	"description": "Raspberry Pi GPIO plugin for Homebridge: https://github.com/nfarina/homebridge",
 	"license": "MIT",
 	"keywords": [
@@ -8,13 +8,13 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/jamesblanksby/homebridge-gpio.git"
+		"url": "git://github.com/dragouf/homebridge-gpio.git"
 	},
 	"engines": {
 		"node": ">=0.12.0",
 		"homebridge": ">=0.2.0"
 	},
 	"dependencies": {
-		"pi-gpio": "^0.0.8"
+		"rpi-gpio": "^0.8.1"
 	}
 }

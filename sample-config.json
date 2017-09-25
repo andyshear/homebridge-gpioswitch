@@ -10,10 +10,9 @@
 
 	"accessories": [
 		{
-			"accessory": "GPIO",
+			"accessory": "GPIOSWITCH",
 			"name": "GPIO4",
-			"pin": 7,
-			"duration": 4000
+			"pin": 7
 		}
 	]
 }
