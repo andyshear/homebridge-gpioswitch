@@ -15,6 +15,6 @@
     "homebridge": ">=0.2.0"
   },
   "dependencies": {
-    "rpi-gpio": "^0.8.1"
+    "onoff": "^1.1.7"
   }
 }

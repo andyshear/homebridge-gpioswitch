@@ -1,11 +1,11 @@
-var gpio = require('rpi-gpio');
+var Gpio = require('onoff').Gpio
 var Service, Characteristic;
 
 module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-    homebridge.registerAccessory('homebridge-gpioswitch', 'GPIO', GPIOAccessory);
+    homebridge.registerAccessory('homebridge-gpioswitch', 'GPIOSWITCH', GPIOAccessory);
 }
 
 function GPIOAccessory(log, config) {
@@ -17,7 +17,7 @@ function GPIOAccessory(log, config) {
     if (!this.pin) throw new Error('You must provide a config value for pin.');
 
     this.state = false;
-    gpio.setup(this.pin, gpio.DIR_OUT, write);
+
 
     this.service
         .getCharacteristic(Characteristic.On)
@@ -36,10 +36,11 @@ GPIOAccessory.prototype.getOn = function(callback) {
 
 GPIOAccessory.prototype.setOn = function(on, callback) {
     this.state = !on;
-    gpio.write(this.pin, on, function(err) {
-        if (err)
-          this.log('error writing ' + (on ? 'true' : 'false') + 'to gpio: ' + this.pin)
-        this.log('writing ' + (on ? 'true' : 'false') + 'to gpio: ' + this.pin)
-    });
+    var relay = new Gpio(this.pin, 'out');
+    if(on)
+      relay.writeSync(on);
+    else
+      relay.unexport();
+    this.log('writing ' + (on ? 'true' : 'false') + 'to gpio: ' + this.pin)
 		callback(null);
 }
