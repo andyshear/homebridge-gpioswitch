@@ -1,7 +1,9 @@
 # Homebridge GPIO
 
 Supports triggering General Purpose Input Output (GPIO) pins on the Raspberry Pi.
-Useful to control relay switch from siri
+Useful to control relay switch from Siri.
+
+It use on/off library to achieve that.
 
 ## Requirements
 -	[Homebridge](https://github.com/nfarina/homebridge) - _HomeKit support for the impatient_
@@ -10,16 +12,6 @@ Useful to control relay switch from siri
 1.	Install Homebridge using `npm install -g homebridge`
 2.	Install this plugin `npm install -g homebridge-gpio`
 3.	Update your configuration file - see `sample-config.json` in this repo
-4.	Install my forked version of [gpo-admin](https://github.com/quick2wire/quick2wire-gpio-admin) _(abandoned project)_:
-
-
-```bash
-git clone git://github.com/jamesblanksby/quick2wire-gpio-admin.git
-cd quick2wire-gpio-admin
-make
-sudo make install
-sudo adduser $USER gpio
-```
 
 ## Configuration
 Example `config.json`
@@ -28,17 +20,15 @@ Example `config.json`
 {
   "accessories": [
     {
-      "accessory": "GPIO",
-        "name": "GPIO4",
-        "pin": 7,
-        "duration": 4000
+      "accessory": "GPIOSWITCH",
+        "name": "my switch",
+        "pin": 7
     }
   ]
 }
 ```
 
 ## Pin Configuration
-An extract from: [pi-gpio](https://github.com/rakeshpai/pi-gpio):
 
 > This couldn't have been more confusing. Raspberry Pi's physical pins are not laid out in any particular logical order. Most of them are given the names of the pins of the Broadcom chip it uses (BCM2835). There isn't even a logical relationship between the physical layout of the Raspberry Pi pin header and the Broadcom chip's pinout. The OS recognizes the names of the Broadcom chip and has nothing to do with the physical pin layout on the Pi. To add to the fun, the specs for the Broadcom chip are nearly impossible to get!
 
