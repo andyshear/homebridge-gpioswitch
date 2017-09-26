@@ -1,10 +1,10 @@
 # Homebridge GPIO
 
 Supports triggering General Purpose Input Output (GPIO) pins on the Raspberry Pi.
+Useful to control relay switch from siri
 
 ## Requirements
 -	[Homebridge](https://github.com/nfarina/homebridge) - _HomeKit support for the impatient_
--	[gpio-admin](https://github.com/quick2wire/quick2wire-gpio-admin) - _Use the GPIO pins on the Raspberry Pi without running as root_
 
 ## Installation
 1.	Install Homebridge using `npm install -g homebridge`

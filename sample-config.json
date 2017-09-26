@@ -11,7 +11,7 @@
 	"accessories": [
 		{
 			"accessory": "GPIOSWITCH",
-			"name": "GPIO4",
+			"name": "my switch",
 			"pin": 7
 		}
 	]
